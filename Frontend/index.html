@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users Database</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daftar Users</h1>
+  <div id="usersContainer"></div>
+
+  <script>
+    fetch("/users")
+      .then(response => response.json())
+      .then(users => {
+        const container = document.getElementById("usersContainer");
+
+        users.forEach(user => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          card.innerHTML = `
+            <h2>${user.full_name}</h2>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Bio:</strong> ${user.bio}</p>
+            <p><strong>Skills:</strong> ${user.skills.join(", ")}</p>
+            <p><strong>Preference Category:</strong> ${user.preferences.category}</p>
+            <p><strong>Competition Level:</strong> ${user.preferences.level}</p>
+          `;
+
+          container.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  </script>
+</body>
+</html>
